@@ -13,10 +13,11 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
 
 ## Installation Guide :D
 
-### Misc, good things to know!
+### Misc, good things to know Throughout!
 * ``lsblk`` - will show all your drives and partitions
 * ``blkid`` - good for getting the UUID for dvices
 * ``networkmanager`` - install through pacman for good networking
+    - Install this after :)
 
 ### 1. Setting everything up
 1. Get your internet up and running
@@ -82,12 +83,13 @@ Note before: I recommend reading along the GRUB link as well as beginner guide a
     2. edit ``/etc/default/grub`` :
         * In the 'GRUB_CMDLINE_LINUX' variable put this string:
     ``cryptdevice=UUID='device-uuid-here':lvm root=/dev/mapper/volNameHere-root``
-4. ``grub-mkconfig -o /boot/grub/grub.cfg`` 
+4. ``grub-mkconfig -o /boot/grub/grub.cfg``
 
 ### 5. Network and Hostname
 1. edit ``/etc/hostname`` and put your hostname in the first line
 2. edit ``/etc/hosts`` [optional] and replace localhost with your hostname
 3. Installing good network managers: ``pacman -S networkmanager``
+    - Then: ``systemctl enable NetworkManager`` (so it starts on boot)
 
 ### 4. Finishing off the installation:
 1. ``passwd`` (change your root password)
@@ -96,3 +98,47 @@ Note before: I recommend reading along the GRUB link as well as beginner guide a
 4. ``reboot``
 
 AND YOU'RE SET!
+
+## Now what?
+
+* https://wiki.archlinux.org/index.php/general_recommendations#Users_and_groups
+* https://wiki.archlinux.org/index.php/Users_and_groups#User_management
+
+### Making a User
+1. Add the group: ``groupadd userNameHere``
+2. Create the user: ``useradd -m -g userNameHere -G wheel -s /bin/bash userNameHere``
+    - ``-m`` creates the home directory
+    - ``-g`` gives them a group to go in
+    - ``-G`` is for additional groups, wheel is a core group in arch linux :)
+
+### Install your window managers etc.
+1. ``pacman -S ____________`` < choose your window manager
+    - Note: there are other steps depending on your window manager!
+2. Install your desktop manager (used for logging in etc.)
+    * e.g. **Lightdm**
+        1. ``pacman -S lightdm lightdm-gtk-greeter accountsservice``
+        2. Get xorg : ``pacman -S xorg-server ...``
+        3.  ***TODO*** : find which file to edit
+3. Edit your ``~/.xinitrc`` to have the line ``exec windowManagerHere``
+
+
+# Problems and Fixes
+1. LightDM is failing
+    - If you go to a new tty ``alt+f2`` [or laptops: ``alt+fn+f2``] (note: some need control)
+    - Look at ``systemctl status lightdm``
+    - Did you install XORG?
+2. Keyboard won't work to decrypt device (yes I ran into it)
+    1. Solution 1 (all round):
+        - Get into live CD
+        - Go back to the step where you edit ``mkinitcpio.conf``
+        - Remove the ``autodetect`` from the ``HOOKS``
+        - ``mkinitcpio -p linux``
+        - You *may* have to go through some of the install again
+    2. Solution 2 (only keyboard)
+        - Get into Live CD
+        - Go back to step where you edit ``mkinitcpio.conf``
+        - ON the ``HOOKS`` line move ``keyboards`` **before** autodetect.
+        - ``mkinitcpio -p linux``
+3. Wireless doesn't work?
+    - Installing ``broadcom`` drivers (look at the arch wiki) [especially MAC!]
+    - Installing ``networkmanager`` is good for fixing some internet issues
