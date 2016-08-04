@@ -141,5 +141,5 @@ AND YOU'RE SET!
         - ON the ``HOOKS`` line move ``keyboards`` **before** autodetect.
         - ``mkinitcpio -p linux``
 3. Wireless doesn't work?
-    - Installing ``broadcom`` drivers (look at the arch wiki) [especially MAC!]
+    - Installing ``broadcom`` drivers (look at the arch wiki) [especially mac users, these are your drivers!]
     - Installing ``networkmanager`` is good for fixing some internet issues
