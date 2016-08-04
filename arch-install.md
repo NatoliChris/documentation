@@ -64,7 +64,7 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
 5. Run: ``locale-gen``
     - Create: ``/etc/locale.conf`` with your locale
         - inside file: ``LANG=en_US.UTF-8`` *(Note: follow the beginner guide about this)*
-6. Selecting Time:
+6. Selecting Time: *Follow the beginner guide for this too, explains it easier*
     1. ``tzselect`` (follow prompts)
     2. ``ln -s /usr/share/zoneinfo/Zone/SubZone /etc/localtime`` (make a symlink)
     3. ``hwclock --systohc --utc``
