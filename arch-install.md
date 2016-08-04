@@ -25,6 +25,7 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
     - If it doesn't work:
         - ``ip link`` - shows the wired connections
         - ``systemctl start dhcpcd@XXXX.service`` : where the XXX is your ethernet from ip link :)
+			- e.g. ``systemctl start dhcpcd@eno0.service``
         - Now try ping
 
 2. Set your time date with ntp : ``timedatectl set-ntp true``
