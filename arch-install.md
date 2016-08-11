@@ -112,6 +112,8 @@ AND YOU'RE SET!
     - ``-m`` creates the home directory
     - ``-g`` gives them a group to go in
     - ``-G`` is for additional groups, wheel is a core group in arch linux :)
+3. Create the user password: 
+    - ``passwd userNameHere``
 
 ### Install your window managers etc.
 1. ``pacman -S ____________`` < choose your window manager
