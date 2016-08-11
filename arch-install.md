@@ -116,6 +116,7 @@ AND YOU'RE SET!
     - ``passwd userNameHere``
 
 ### Install your window managers etc.
+Side note: make sure that you have a user with a password already created :)
 1. ``pacman -S ____________`` < choose your window manager
     - Note: there are other steps depending on your window manager!
 2. Install your desktop manager (used for logging in etc.)
@@ -125,6 +126,21 @@ AND YOU'RE SET!
         3.  ***TODO*** : find which file to edit
 3. Edit your ``~/.xinitrc`` to have the line ``exec windowManagerHere``
 
+#### [GNOME] (easy install) 
+To install gnome: 
+
+1. Install: ``pacman -S gnome gnome-extra``
+2. Set the gdm: ``systemctl enable gdm`` 
+3. Reboot and you're done: ``sudo reboot``
+
+#### [AwesomeWM]
+1. Install: ``pacman -S awesome xorg xorg-server``
+2. ** TODO: ** : *find files to edit to get awesome to work!* 
+2. (You will need a display manager to manage logging in / everythign )
+
+#### [i3]
+1. Install: ``pacman -S i3 xorg xorg-server``
+2. ** TODO ** : *find files to edit and get i3 working!*
 
 # Problems and Fixes
 1. LightDM is failing
