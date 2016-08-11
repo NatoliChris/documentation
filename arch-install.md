@@ -48,6 +48,7 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
 8. ``lvcreate -l 100%FREE volNameHere -n root``: set the rest of the drive to root.
     * Note the little `l`, it is used for percentages!
 9. Format root: ``mkfs.ext4 /dev/mapper/volNameHere-root``
+    1. Mount it: ``mount /dev/mapper/volNameHere-root /mnt``
 10. Make Swap: ``mkswap /dev/mapper/volNameHere-swap``
 11. Get the boot device ready:
     1. ``mkfs.ext2 /dev/sdX1`` : format the boot partition
