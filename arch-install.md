@@ -38,7 +38,7 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
         - I will refer to this partition as ``sdX1``
     - Rest of the partition: type=LINUX LVM
         - I will refer to this partition as ``sdX2``
-3. ``cryptsetup luksFormat /dev/sdX_`` : the main partition (not boot)
+3. ``cryptsetup luksFormat /dev/sdX1`` : the main partition (not boot)
     * Note: you can choose which type of Luks encryption to use here, please check [https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS) documentation
 4. ``cryptsetup open --type luks /dev/sdX2 lvm``
     - (note ``sdX2`` from above)
