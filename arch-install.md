@@ -50,6 +50,7 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
 9. Format root: ``mkfs.ext4 /dev/mapper/volNameHere-root``
     1. Mount it: ``mount /dev/mapper/volNameHere-root /mnt``
 10. Make Swap: ``mkswap /dev/mapper/volNameHere-swap``
+    1. Mount it: ``swapon /dev/mapper/volNameHere-swap``
 11. Get the boot device ready:
     1. ``mkfs.ext2 /dev/sdX1`` : format the boot partition
     2. ``mkdir /mnt/boot``
@@ -60,6 +61,7 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
     - Note: Australia should be moved to the top of the list
     - Note 2: Found (Aug 2016) that **Uber** was the fastest service
 2. ``pacstrap -i /mnt base base-devel`` : install linux
+    - **NOTE**: If you're getting an error here, make sure that you have mounted your root, home and swap properly (Steps 2.9.1, 2.10.1)
 3. ``genfstab -U /mnt >> /mnt/etc/fstab`` : generate the fstab
 4. ``arch-chroot /mnt /bin/bash`` : get into the arch shell on your drive
 5. Run: ``locale-gen``
@@ -72,6 +74,7 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
 7. *(Follow the encrypting entire system LVM on LUKS)*:
     1. edit: ``/etc/mkinitcpio.conf``
         - Change: ``HOOKS="____ encrypt lvm2 filesystems ___"`` (make sure that encrypt and lvm2 and filesystems are inside that line)
+            - Example of a complete line: ``HOOKS="base udev encrypt lvm2 autodetect modconf block filesystems keyboard fsck"``
             - **NOTE**: if you are on a laptop or desktop computer and want a portable USB version of your arch linux, then you can take out the *'autodetect'* from that hook, it will install all drivers for keyboards etc.
 8. ``mkinitcpio -p linux``
 
@@ -112,13 +115,14 @@ AND YOU'RE SET!
     - ``-m`` creates the home directory
     - ``-g`` gives them a group to go in
     - ``-G`` is for additional groups, wheel is a core group in arch linux :)
-3. Create the user password: 
+3. Create the user password:
     - ``passwd userNameHere``
 
 ### Install your window managers etc.
 Side note: make sure that you have a user with a password already created :)
 1. ``pacman -S ____________`` < choose your window manager
     - Note: there are other steps depending on your window manager!
+    - Note 2: Not sure which window manager to choose? Here's a [handy list](http://askubuntu.com/questions/65083/what-kinds-of-desktop-environments-and-shells-are-available)
 2. Install your desktop manager (used for logging in etc.)
     * e.g. **Lightdm**
         1. ``pacman -S lightdm lightdm-gtk-greeter accountsservice``
@@ -126,17 +130,18 @@ Side note: make sure that you have a user with a password already created :)
         3.  ***TODO*** : find which file to edit
 3. Edit your ``~/.xinitrc`` to have the line ``exec windowManagerHere``
 
-#### [GNOME] (easy install) 
-To install gnome: 
+#### [GNOME] - easy install
+To install gnome:
 
 1. Install: ``pacman -S gnome gnome-extra``
-2. Set the gdm: ``systemctl enable gdm`` 
-3. Reboot and you're done: ``sudo reboot``
+2. Set the gdm: ``systemctl enable gdm``
+3. Edit ``~/.xinitrc`` to have the line ``exec gnome-session``
+4. Reboot and you're done: ``sudo reboot``
 
 #### [AwesomeWM]
 1. Install: ``pacman -S awesome xorg xorg-server``
-2. ** TODO: ** : *find files to edit to get awesome to work!* 
-2. (You will need a display manager to manage logging in / everythign )
+2. ** TODO: ** : *find files to edit to get awesome to work!*
+2. (You will need a display manager to manage logging in / everything )
 
 #### [i3]
 1. Install: ``pacman -S i3 xorg xorg-server``
