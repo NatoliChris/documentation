@@ -139,7 +139,7 @@ To install gnome:
 3. Edit ``~/.xinitrc`` to have the line ``exec gnome-session``
 4. Reboot and you're done: ``sudo reboot``
 
-NOTE: For unknown reason, the default gnome terminal does not work. To get around this, use Teletype ``ctrl + alt + F3`` and download an alternative terminal e.g. ``pacman -S terminator``. ``ctrl + alt F1`` should bring you back to a logon screen.
+NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.07.01). To get around this, use Teletype ``ctrl + alt + F3`` and download an alternative terminal e.g. ``pacman -S terminator``. ``ctrl + alt F1`` should bring you back to a logon screen.
 
 #### [AwesomeWM]
 1. Install: ``pacman -S awesome xorg xorg-server``
