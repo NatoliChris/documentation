@@ -74,8 +74,9 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
 7. *(Follow the encrypting entire system LVM on LUKS)*:
     1. edit: ``/etc/mkinitcpio.conf``
         - Change: ``HOOKS="____ encrypt lvm2 filesystems ___"`` (make sure that encrypt and lvm2 and filesystems are inside that line)
-            - Example of a complete line: ``HOOKS="base udev encrypt lvm2 autodetect modconf block filesystems keyboard fsck"``
+            - **Example of a complete line**: ``HOOKS="base udev encrypt lvm2 autodetect modconf block filesystems keyboard fsck"``
             - **NOTE**: if you are on a laptop or desktop computer and want a portable USB version of your arch linux, then you can take out the *'autodetect'* from that hook, it will install all drivers for keyboards etc.
+            	-  ``HOOKS="base udev keyboard encrypt lvm2 modconf block filesystems fsck"``
 8. ``mkinitcpio -p linux``
 
 ### 4. Bootloader time (GRUB with MBR)
@@ -139,7 +140,7 @@ To install gnome:
 3. Edit ``~/.xinitrc`` to have the line ``exec gnome-session``
 4. Reboot and you're done: ``sudo reboot``
 
-NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.07.01). To get around this, use Teletype ``ctrl + alt + F3`` and download an alternative terminal e.g. ``pacman -S terminator``. ``ctrl + alt F1`` should bring you back to a logon screen.
+NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.07.01). To get around this, use Teletype ``ctrl + alt + F3``, login to your account and download an alternative terminal e.g. ``pacman -S terminator`` or ``pacman -S xterm``. ``ctrl + alt F1`` should bring you back to a logon screen.
 
 #### [AwesomeWM]
 1. Install: ``pacman -S awesome xorg xorg-server``
