@@ -120,6 +120,7 @@ AND YOU'RE SET!
 
 ### Install your window managers etc.
 Side note: make sure that you have a user with a password already created :)
+
 1. ``pacman -S ____________`` < choose your window manager
     - Note: there are other steps depending on your window manager!
     - Note 2: Not sure which window manager to choose? Here's a [handy list](http://askubuntu.com/questions/65083/what-kinds-of-desktop-environments-and-shells-are-available)
@@ -137,6 +138,8 @@ To install gnome:
 2. Set the gdm: ``systemctl enable gdm``
 3. Edit ``~/.xinitrc`` to have the line ``exec gnome-session``
 4. Reboot and you're done: ``sudo reboot``
+
+NOTE: For unknown reason, the default gnome terminal does not work. To get around this, use Teletype ``ctrl + alt + F3`` and download an alternative terminal e.g. ``pacman -S terminator``. ``ctrl + alt F1`` should bring you back to a logon screen.
 
 #### [AwesomeWM]
 1. Install: ``pacman -S awesome xorg xorg-server``
