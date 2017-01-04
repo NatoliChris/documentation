@@ -171,3 +171,6 @@ NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.
 3. Wireless doesn't work?
     - Installing ``broadcom`` drivers (look at the arch wiki) [especially mac users, these are your drivers!]
     - Installing ``networkmanager`` is good for fixing some internet issues
+4. Dual booting won't find OS?
+	- Before you make the grub config, make sure to ``pacman -S os-probe``
+
