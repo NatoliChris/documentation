@@ -100,4 +100,74 @@ Or restart
 systemctrl restart nginx
 ```
 
+---
+
+## Working with NodeJS
+
+### Installing and pre-requisites
+
+Follow the guidelines, make sure to get ``npm`` with your nodejs.
+
+Then install the program to run:
+
+```
+npm install pm2 -g
+```
+
+### Getting it working
+
+Make a test javascript file
+
+**hello.js**
+
+```
+
+var http = require('http');
+var addr = '127.0.0.1';
+var port = 8001
+http.createServer(function(req, res) {
+	res.writeHead(200, {'Content-Type': 'text/plain'});
+	res.end('Hello, World!\n');
+}).listen(port, addr);
+console.log('Server started at ' + addr + ':' + port);
+
+```
+
+Then start node to test
+
+```
+node hello.js
+```
+
+Then start pm2
+
+```
+pm2 start hello.js
+```
+
+Once that is done, similar to above edit the NGINX config
+
+
+Edit the config ``/etc/nginx/sites-enabled/default``, replacing ``location / {....}``:
+
+```
+location / {
+               proxy_pass http://127.0.0.1:8001;
+               proxy_set_header Host $host;
+               proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      }
+```
+
+Then reload
+
+```
+systemctl reload nginx
+```
+
+Or restart
+
+``` 
+systemctrl restart nginx
+```
+
 
