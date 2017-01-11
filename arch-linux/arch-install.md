@@ -129,7 +129,6 @@ Side note: make sure that you have a user with a password already created :)
     * e.g. **Lightdm**
         1. ``pacman -S lightdm lightdm-gtk-greeter accountsservice``
         2. Get xorg : ``pacman -S xorg-server ...``
-        3.  ***TODO*** : find which file to edit
 3. Edit your ``~/.xinitrc`` to have the line ``exec windowManagerHere``
 
 #### [GNOME] - easy install
@@ -144,12 +143,10 @@ NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.
 
 #### [AwesomeWM]
 1. Install: ``pacman -S awesome xorg xorg-server``
-2. ** TODO: ** : *find files to edit to get awesome to work!*
 2. (You will need a display manager to manage logging in / everything )
 
 #### [i3]
 1. Install: ``pacman -S i3 xorg xorg-server``
-2. ** TODO ** : *find files to edit and get i3 working!*
 
 # Problems and Fixes
 1. LightDM is failing
