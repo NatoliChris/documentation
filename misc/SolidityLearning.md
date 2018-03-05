@@ -23,7 +23,8 @@ used (unless creating as an assigned value)
 * Functions are **public** by default!
 * Private functions start with an `_`
 * Events usually declared at the top of the contract
-* Mappings also need to be declared `public` if they are public.
+* Mappings also need to be declared `public` if they are public. (e.g. ``mapping(address => uint) public people``)
+* Use `require` to check conditions are true to execute certain functions.
 
 ## Misc
 
@@ -31,3 +32,14 @@ used (unless creating as an assigned value)
 * A *pure* function means you're not accessing anything in the app (just using function e.g `multiply` functions).
 * Note: no secure random number generation! 
 * Events are a way to communicate that something on the blockchain has occurred.
+* There will always be a ``msg.sender`` for any given contract function call.
+* Memory and Storage - can use with streucts and arrays within functions.
+  * `Storage` is **permanent** memory (stored on chain).
+  * `Memory` is **temporary** memory erased between external function calls of the contract.
+* Solidity function types:
+  * `public` - accessed by all
+  * `private` - accessed only internally
+  * `internal` - same as private but accessible by contracts that inherit from contract
+  * `external` - similar to public but only called *outside* the contract (Can't be called by other functions inside)
+* Can use an interface to make a contract interface to already deployed contracts.
+* Comparing strings - it is better to compare the `keccak256` or `sha3` hashes than the strings.
