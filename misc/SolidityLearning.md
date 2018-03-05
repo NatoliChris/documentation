@@ -20,3 +20,14 @@ to the execution of the smart contract.
 * Function parameters start with `_`, e.g. ``function eatMe(string _name, uint _age)``
 * Creating variables standalone (e.g. uint x;) is not good practice, instead just assign when
 used (unless creating as an assigned value)
+* Functions are **public** by default!
+* Private functions start with an `_`
+* Events usually declared at the top of the contract
+* Mappings also need to be declared `public` if they are public.
+
+## Misc
+
+* A *view* function is when viewing data but not modifying.
+* A *pure* function means you're not accessing anything in the app (just using function e.g `multiply` functions).
+* Note: no secure random number generation! 
+* Events are a way to communicate that something on the blockchain has occurred.
