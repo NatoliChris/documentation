@@ -43,3 +43,8 @@ used (unless creating as an assigned value)
   * `external` - similar to public but only called *outside* the contract (Can't be called by other functions inside)
 * Can use an interface to make a contract interface to already deployed contracts.
 * Comparing strings - it is better to compare the `keccak256` or `sha3` hashes than the strings.
+* Function `modifier`
+  * ``modifier modifierName()`` creates a function-like statement that can be attached to other functions.
+  * ``function helloWorld() modifierName`` - will call the modifier with the function. Usually used for access control.
+* `uint` sizes aren't what they seem. Solidity automatically reserves 256 bits of storage for `uint8` or `unit256 (uint)`.
+  * **Struct Packing**: In a `struct` that is different. Saving sizes of `uint` actually affects the size of the struct. 
