@@ -35,7 +35,10 @@ used (unless creating as an assigned value)
 * There will always be a ``msg.sender`` for any given contract function call.
 * Memory and Storage - can use with streucts and arrays within functions.
   * `Storage` is **permanent** memory (stored on chain).
+    * Note: `storage` is costly.
   * `Memory` is **temporary** memory erased between external function calls of the contract.
+    * Cheaper (in some cases) to rebuild in memory.
+    * Note: `arrays` must have full size for building in memory: ``uint[] foo = new uint[](3);``
 * Solidity function types:
   * `public` - accessed by all
   * `private` - accessed only internally
@@ -56,4 +59,3 @@ used (unless creating as an assigned value)
 * Passing structs: 
   * Able to pass to `private` or `internal` functions.
   * `storage` pointer to a struct as an argument. (``function _test(StructName storage _structinstance) internal``).
-  
