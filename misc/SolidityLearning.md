@@ -14,6 +14,10 @@ to the execution of the smart contract.
 * [https://remix.ethereum.org/](https://remix.ethereum.org/) - Solidity IDE in browser.
 * [https://ethfiddle.com/](https://ethfiddle.com/) - Another Solidity IDE in browser.
 * [Ethernaut](https://github.com/OpenZeppelin/ethernaut) - Ethereum Wargames (Vulnerability tutorials)
+* [SafeMath](https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/math/SafeMath.sol) - Safe math operations
+* **ERC20**:
+  * [EIP20](https://github.com/ethereum/eips/issues/20) - Etheruem Improvement Proposal for Token Standards.
+  * [ERC20 Git](https://github.com/OpenZeppelin/zeppelin-solidity/tree/master/contracts/token/ERC20) - Implementation of ERC20 (EIP20).
 
 ## Conventions and Code Style
 
@@ -25,6 +29,8 @@ used (unless creating as an assigned value)
 * Events usually declared at the top of the contract
 * Mappings also need to be declared `public` if they are public. (e.g. ``mapping(address => uint) public people``)
 * Use `require` to check conditions are true to execute certain functions.
+* Comments are `//` for single line and ``/* ... */`` for multi-line.
+
 
 ## Misc
 
@@ -33,6 +39,9 @@ used (unless creating as an assigned value)
 * Note: no secure random number generation! 
 * Events are a way to communicate that something on the blockchain has occurred.
 * There will always be a ``msg.sender`` for any given contract function call.
+* **Inheritance**: a contract gets the functions from the contract that it inherits.
+  * ``contract ExampleA is ExampleB``
+  * ``contract ExampleA is ExampleB, ERC721``
 * Memory and Storage - can use with streucts and arrays within functions.
   * `Storage` is **permanent** memory (stored on chain).
     * Note: `storage` is costly.
@@ -66,14 +75,48 @@ used (unless creating as an assigned value)
   * `wei` - the `wei` value.
   * `gwei` - the `gwei` value.
 * Transferring money: ``owner.transfer(this.balance);`` - transfers the balance of the contract to the owner.
+  * Transfer Logic (including tokens):
+* [SafeMath](https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/math/SafeMath.sol) library by **OpenZepplin** provides safe maths.
+  * Use the `safemath` syntax to ensure correct execution.
+* **Library**:
+  * Special solidity contract.
+  * Attach functions to native data types.
+  * ``library myLibraryName``
+  * e.g. (Safemath add) ``function add(uint256 a, uint256b) internal pure returns (uint256)``
+  * How to use?
+    1. ``import "./safemath.sol"``
+    2. ``using SafeMath for uint256``
 
+## Tokens
 
-Example Contracts:
+* Tokens are just smart contracts that follow common rules.
+  * Example: `Transfer`, `BalanceOf` and a `mapping` that keeps track of how much balance you have.
+  * The **ERC20** token standard means those tokens have the same set of functions (with same name).
+  * An application that interacts with the `ERC20` token standard is also capable of adding more tokens in the future.
+* Other token standards exist, all with differing interfaces and meaning.
+* ERC721 tokens
+  * Non-fungible / unique tokens on the blockchain.
+  * Almost like 'collectible/one of a kind'.
+* Two ways to transfer tokens:
+  * ``transfer(address _to, uint256 _tokenId)`` - token owner calls transfer;
+  * ``approve(address _to, uint256 _tokenId)`` - token owner calls approve and then transfer; contract stores who is approved;
+  * ``takeOwnership(uint256 _tokenId)`` - only approved will be able to take ownership of a token;
+
+## Contract Commenting
+
+Follow [``natspec``](https://ethereum.gitbooks.io/frontier-guide/content/natspec.html) for coding guidelines and comments.
+
+* **Title**:  ``/// @title Title of the Contract.``
+* **Author**: ``/// @author The author of the contract.``
+* **Developer Comments**: ``/// @dev explains what each function does.``
+* **User Notice**: ``/// @notice explains to the user what the contract function does.``
+
+## Example Contracts:
 
 ```solidity
 pragma solidity ^0.4.19;
 
-import "./myOtherContract.sol"
+import "./myOtherContract.sol";
 
 contract ExampleContract {
     uint testUint = 0;
