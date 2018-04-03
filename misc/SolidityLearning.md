@@ -46,5 +46,14 @@ used (unless creating as an assigned value)
 * Function `modifier`
   * ``modifier modifierName()`` creates a function-like statement that can be attached to other functions.
   * ``function helloWorld() modifierName`` - will call the modifier with the function. Usually used for access control.
+  * *Note:* modifiers can also take arguments.
 * `uint` sizes aren't what they seem. Solidity automatically reserves 256 bits of storage for `uint8` or `unit256 (uint)`.
   * **Struct Packing**: In a `struct` that is different. Saving sizes of `uint` actually affects the size of the struct. 
+* Time in solidity:
+  * `now` - returns the uint256 timestamp of the current time.
+  * Also stores time intervals `seconds`, `minutes`, `hours`, `days`, `weeks` and `years`.
+  * Can do math ``now + 5  minutes`` etc.
+* Passing structs: 
+  * Able to pass to `private` or `internal` functions.
+  * `storage` pointer to a struct as an argument. (``function _test(StructName storage _structinstance) internal``).
+  
