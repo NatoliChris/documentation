@@ -18,6 +18,9 @@ to the execution of the smart contract.
 * **ERC20**:
   * [EIP20](https://github.com/ethereum/eips/issues/20) - Etheruem Improvement Proposal for Token Standards.
   * [ERC20 Git](https://github.com/OpenZeppelin/zeppelin-solidity/tree/master/contracts/token/ERC20) - Implementation of ERC20 (EIP20).
+* [``Web3.js``](https://github.com/ethereum/web3.js/)
+  * [Docs 0.X.X](https://github.com/ethereum/wiki/wiki/JavaScript-API)
+  * [Docs 1.X](http://web3js.readthedocs.io/en/1.0/index.html)
 
 ## Conventions and Code Style
 
@@ -110,6 +113,19 @@ Follow [``natspec``](https://ethereum.gitbooks.io/frontier-guide/content/natspec
 * **Author**: ``/// @author The author of the contract.``
 * **Developer Comments**: ``/// @dev explains what each function does.``
 * **User Notice**: ``/// @notice explains to the user what the contract function does.``
+
+
+## Interacting with Contracts
+
+* Making web applications interact with contracts using [``web3.js``](https://github.com/ethereum/web3.js/)
+  * Note: be careful of version changes and API changes. They're usually quick and sometimes undocumented.
+  * Follow the guidelines at:
+    * [Documentation  0.X.X](https://github.com/ethereum/wiki/wiki/JavaScript-API)
+    * [Documentation 1.X](http://web3js.readthedocs.io/en/1.0/index.html)
+* [Metamask](http://web3js.readthedocs.io/en/1.0/index.html) - Provides a chrome extension as a wallet!
+* [Infura](https://infura.io/) - Provides an ethereum provider to send your web3 to!
+  * This means you don't have to run a local node.
+  * However, be aware that they may slow down or add different fees. There are positive's and negatives of running your own nodes.
 
 ## Example Contracts:
 
