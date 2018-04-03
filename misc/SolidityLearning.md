@@ -59,3 +59,35 @@ used (unless creating as an assigned value)
 * Passing structs: 
   * Able to pass to `private` or `internal` functions.
   * `storage` pointer to a struct as an argument. (``function _test(StructName storage _structinstance) internal``).
+* `payable` - allows for functions to receive payment (adds ``msg.value``).
+  * If the function is not `payable`, a transaction that sends ether will be *rejected*.
+* Monetary value can be coded in Solidity:
+  * `ether` - the ether value. (e.g. ``0.001 ether``)
+  * `wei` - the `wei` value.
+  * `gwei` - the `gwei` value.
+* Transferring money: ``owner.transfer(this.balance);`` - transfers the balance of the contract to the owner.
+
+
+Example Contracts:
+
+```solidity
+pragma solidity ^0.4.19;
+
+import "./myOtherContract.sol"
+
+contract ExampleContract {
+    uint testUint = 0;
+
+    mapping (uint => address) personId;
+
+    modifier onlyOwner(uint _exampleId) {
+      // Note the end _ is important!
+      require(personId[_exampleId] == msg.sender);
+      _;
+    }
+
+    function checkMate(uint _exampleId) external view onlyOwner returns (bool) {
+        return true;
+    }
+}
+```
