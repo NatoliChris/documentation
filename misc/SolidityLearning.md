@@ -64,6 +64,7 @@ used (unless creating as an assigned value)
   * *Note:* modifiers can also take arguments.
 * `uint` sizes aren't what they seem. Solidity automatically reserves 256 bits of storage for `uint8` or `unit256 (uint)`.
   * **Struct Packing**: In a `struct` that is different. Saving sizes of `uint` actually affects the size of the struct. 
+  * Solidity works in 256 bits, e.g. if you do `uint128,unint128` they can fit in the same spot, if you do arithmetic with `uint16` it will cost more gas.
 * Time in solidity:
   * `now` - returns the uint256 timestamp of the current time.
   * Also stores time intervals `seconds`, `minutes`, `hours`, `days`, `weeks` and `years`.
