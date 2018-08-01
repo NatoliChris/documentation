@@ -6,9 +6,11 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
 
 
 ## Websites to have open (and follow through the tutorial):
-* [https://wiki.archlinux.org/index.php/beginners'_guide](https://wiki.archlinux.org/index.php/beginners'_guide)
+* [https://wiki.archlinux.org/index.php/Installation_guide](https://wiki.archlinux.org/index.php/Installation_guide)
 * [https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS)
 * [https://wiki.archlinux.org/index.php/GRUB](https://wiki.archlinux.org/index.php/GRUB)
+* [https://wiki.archlinux.org/index.php/EFI_system_partition](https://wiki.archlinux.org/index.php/EFI_system_partition)
+
 
 
 ## Installation Guide :D
@@ -18,6 +20,14 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
 * ``blkid`` - good for getting the UUID for dvices
 * ``networkmanager`` - install through pacman for good networking
     - Install this after :)
+
+### (Pre-Install - Check if you're UEFI or BIOS/Legacy Boot)
+
+Try to list the directory, if you can't find it then you're in legacy mode
+
+```
+ls /sys/firmware/efi/efivars
+```
 
 ### 1. Setting everything up
 1. Get your internet up and running
@@ -38,6 +48,8 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
         - I will refer to this partition as ``sdX1``
     - Rest of the partition: type=LINUX LVM
         - I will refer to this partition as ``sdX2``
+    - NOTE: If you have UEFI you need an EFI partition (Follow the EFI partition guide closely!)
+        - Format as `FAT32`: ``mkfs.fat -F32 /dev/sdX3``
 3. ``cryptsetup luksFormat /dev/sdX2`` : the main partition (not boot)
     * Note: you can choose which type of Luks encryption to use here, please check [https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS) documentation
 4. ``cryptsetup open --type luks /dev/sdX2 lvm``
@@ -55,6 +67,9 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
     1. ``mkfs.ext2 /dev/sdX1`` : format the boot partition
     2. ``mkdir /mnt/boot``
     3. ``mount /dev/sdX1 /mnt/boot`` : mount it
+    4. EFI:
+        1. ``mkdir /mnt/boot/efi``
+        2. ``mount /dev/sdX3 /mnt/boot/efi``
 
 ### 3. Time to install
 1. Change your mirror list: ``vi /etc/pacman.d/mirrorlist``
@@ -64,9 +79,11 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
     - **NOTE**: If you're getting an error here, make sure that you have mounted your root, home and swap properly (Steps 2.9.1, 2.10.1)
 3. ``genfstab -U /mnt >> /mnt/etc/fstab`` : generate the fstab
 4. ``arch-chroot /mnt /bin/bash`` : get into the arch shell on your drive
-5. Run: ``locale-gen``
-    - Create: ``/etc/locale.conf`` with your locale
-        - inside file: ``LANG=en_US.UTF-8`` *(Note: follow the beginner guide about this)*
+5. Getting Locale:
+    1. Uncomment ``en_US.UTF-8 UTF-8`` in `/etc/locale.gen`
+    2. ``locale-gen``
+    3. Create: ``/etc/locale.conf`` with your locale
+        - inside file: ``LANG=en_US.UTF-8`` *(Note: follow the install guide about this)*
 6. Selecting Time: *Follow the beginner guide for this too, explains it easier*
     1. ``tzselect`` (follow prompts)
     2. ``ln -s /usr/share/zoneinfo/Zone/SubZone /etc/localtime`` (make a symlink)
@@ -79,8 +96,13 @@ Note: This is only my experience, I highly suggest reading through the wiki and 
             	-  ``HOOKS="base udev keyboard encrypt lvm2 modconf block filesystems fsck"``
 8. ``mkinitcpio -p linux``
 
-### 4. Bootloader time (GRUB with MBR)
+### 4. Bootloader time
+
 Note before: I recommend reading along the GRUB link as well as beginner guide and the encrypting system, it has fine details that I may have missed.
+
+[https://wiki.archlinux.org/index.php/GRUB](https://wiki.archlinux.org/index.php/GRUB#UEFI_systems)
+
+#### GRUB with MBR
 
 1. ``pacman -S grub``
 2. ``grub-install --target=i386-pc /dev/sdX`` (e.g. /dev/sdc) [grub will detect the boot]
@@ -90,6 +112,26 @@ Note before: I recommend reading along the GRUB link as well as beginner guide a
         * In the 'GRUB_CMDLINE_LINUX' variable put this string:
     ``cryptdevice=UUID='device-uuid-here':lvm root=/dev/mapper/volNameHere-root``
 4. ``grub-mkconfig -o /boot/grub/grub.cfg``
+
+#### GRUB with UEFI
+
+I am not lying now - read: [https://wiki.archlinux.org/index.php/GRUB#UEFI_systems](https://wiki.archlinux.org/index.php/GRUB#UEFI_systems)
+
+1. ``pacman -S grub efibootmgr``
+2. Mount EFI System Parition (usually `/boot/efi`) 
+    * *NOTE: replace `/boot/efi` with your EFI partition if you changed it*
+3. Install GRUB
+
+```
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+```
+
+4. edit the grub defaults:
+    1. ``blkid`` to find the UUID of your crypted device (find UUID of /dev/sdX2 [the encrypted partition])
+    2. edit ``/etc/default/grub`` :
+        * In the 'GRUB_CMDLINE_LINUX' variable put this string:
+    ``cryptdevice=UUID='device-uuid-here':lvm root=/dev/mapper/volNameHere-root``
+5. ``grub-mkconfig -o /boot/grub/grub.cfg``
 
 ### 5. Network and Hostname
 1. edit ``/etc/hostname`` and put your hostname in the first line
@@ -150,7 +192,7 @@ NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.
 
 # Problems and Fixes
 1. LightDM is failing
-    - If you go to a new tty ``alt+f2`` [or laptops: ``alt+fn+f2``] (note: some need control)
+    - If you go to a new tty ``ctrl+alt+f2``/``alt+f2`` [or laptops: ``alt+fn+f2``] (note: some need control)
     - Look at ``systemctl status lightdm``
     - Did you install XORG?
 2. Keyboard won't work to decrypt device (yes I ran into it)
