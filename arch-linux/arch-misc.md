@@ -9,3 +9,16 @@
 ## Dual Screen Configurations:
   - arandr
   - xrandr
+## Disable system beep:
+
+```
+sudo vim /etc/inputrc
+```
+
+Then add the line
+
+```
+set bell-style none
+```
+
+
