@@ -50,6 +50,9 @@ ls /sys/firmware/efi/efivars
         - I will refer to this partition as ``sdX2``
     - NOTE: If you have UEFI you need an EFI partition (Follow the EFI partition guide closely!)
         - Format as `FAT32`: ``mkfs.fat -F32 /dev/sdX3``
+    - NOTE2: If you're using GPT/GRUB/BIOS;
+    	- Make sure you make a `1M` partition at the top of your drive for the `BIOS Boot`
+	- Layout: `1M:/dev/sdX1`, `400M:/dev/sdX2` (boot), ``rest=root``.
 3. ``cryptsetup luksFormat /dev/sdX2`` : the main partition (not boot)
     * Note: you can choose which type of Luks encryption to use here, please check [https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS) documentation
 4. ``cryptsetup open --type luks /dev/sdX2 lvm``
@@ -160,6 +163,7 @@ AND YOU'RE SET!
     - ``-G`` is for additional groups, wheel is a core group in arch linux :)
 3. Create the user password:
     - ``passwd userNameHere``
+4. Let the `sudo` work by editing the sudoers file and uncommenting the `wheel` line.
 
 ### Install your window managers etc.
 Side note: make sure that you have a user with a password already created :)
@@ -171,6 +175,7 @@ Side note: make sure that you have a user with a password already created :)
     * e.g. **Lightdm**
         1. ``pacman -S lightdm lightdm-gtk-greeter accountsservice``
         2. Get xorg : ``pacman -S xorg-server ...``
+	3. ``systemctl enable lightdm``
 3. Edit your ``~/.xinitrc`` to have the line ``exec windowManagerHere``
 
 #### [GNOME] - easy install
@@ -188,7 +193,7 @@ NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.
 2. (You will need a display manager to manage logging in / everything )
 
 #### [i3]
-1. Install: ``pacman -S i3 xorg xorg-server``
+1. Install: ``pacman -S i3 xorg xorg-server rxvt-unicode xterm``
 
 # Problems and Fixes
 1. LightDM is failing
@@ -211,5 +216,6 @@ NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.
     - Installing ``broadcom`` drivers (look at the arch wiki) [especially mac users, these are your drivers!]
     - Installing ``networkmanager`` is good for fixing some internet issues
 4. Dual booting won't find OS?
-	- Before you make the grub config, make sure to ``pacman -S os-probe``
+	- Before you make the grub config, make sure to ``pacman -S os-prober``
+	- You might also need ``pacman -S ntfs-3g`` to find the windows boot.
 
