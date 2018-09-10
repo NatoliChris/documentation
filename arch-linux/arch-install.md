@@ -53,8 +53,9 @@ ls /sys/firmware/efi/efivars
     - NOTE2: If you're using GPT/GRUB/BIOS;
     	- Make sure you make a `1M` partition at the top of your drive for the `BIOS Boot`
 	- Layout: `1M:/dev/sdX1`, `400M:/dev/sdX2` (boot), ``rest=root``.
-3. ``cryptsetup luksFormat /dev/sdX2`` : the main partition (not boot)
+3. ``cryptsetup --key-size 512 --cipher aes-xts-plain64 luksFormat /dev/sdX2`` : the main partition (not boot)
     * Note: you can choose which type of Luks encryption to use here, please check [https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS) documentation
+    * Check your options: [https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption#Encryption_options_for_LUKS_mode](https://wiki.archlinux.org/index.php/Dm-crypt/Device_encryption#Encryption_options_for_LUKS_mode)
 4. ``cryptsetup open --type luks /dev/sdX2 lvm``
     - (note ``sdX2`` from above)
 5. ``pvcreate /dev/mapper/lvm`` : create the physical volume
