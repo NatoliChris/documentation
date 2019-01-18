@@ -219,4 +219,8 @@ NOTE: For reasons unknown, the default gnome terminal will not open (Arch v2016.
 4. Dual booting won't find OS?
 	- Before you make the grub config, make sure to ``pacman -S os-prober``
 	- You might also need ``pacman -S ntfs-3g`` to find the windows boot.
+5. Grub-mkconfig fails? (01/2019 issue so far)
+    - Seems like upstream change with lvm2.
+    - Read thread, mount lvm from run: https://bbs.archlinux.org/viewtopic.php?id=242594
+
 
